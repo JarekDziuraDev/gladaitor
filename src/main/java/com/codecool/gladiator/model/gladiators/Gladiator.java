@@ -55,8 +55,7 @@ public abstract class Gladiator {
      * @return the full name
      */
     public String getFullName() {
-        // Todo
-        return name;
+        return this.getClass().getName() + " " + name;
     }
 
     public enum Multiplier {
@@ -73,6 +72,25 @@ public abstract class Gladiator {
         public double getValue() {
             return value;
         }
+    }
+
+    public void levelUp() {
+        this.level++;
+    }
+
+    public int getMaxHp() {
+        double result = this.baseHp * getHpMultiplier().value * this.level;
+        return (int)result;
+    }
+
+    public int getMaxSp() {
+        double result = this.baseSp * getHpMultiplier().value * this.level;
+        return (int)result;
+    }
+
+    public int getMaxDex() {
+        double result = this.baseDex * getHpMultiplier().value * this.level;
+        return (int)result;
     }
 
 }
