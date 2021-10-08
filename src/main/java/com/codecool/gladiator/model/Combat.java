@@ -55,6 +55,7 @@ public class Combat {
     public Gladiator simulate() {
         // Todo
         Gladiator winner = null;
+        Gladiator loser = null;
         Gladiator gladiatorAttacker, gladiatorDefender = null;
 
         if (checkGladiatorNullReference(getGladiator1()))
@@ -93,11 +94,15 @@ public class Combat {
                 if(checkGladiatorHPCondition(getGladiator1())) {
                     fightCondition = false;
                     winner = getGladiator2();
+                    loser = getGladiator1();
                 }
                 if(checkGladiatorHPCondition(getGladiator2())) {
                     fightCondition = false;
                     winner = getGladiator1();
+                    loser = getGladiator1();
                 }
+
+                if (!fightCondition) this.getCombatLog(loser.getName() + " has died, " + winner.getName() + " wins!");
             }
 
         }
