@@ -1,6 +1,7 @@
 package com.codecool.gladiator.model;
 
 import com.codecool.gladiator.model.gladiators.Gladiator;
+import com.codecool.gladiator.util.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,69 @@ public class Combat {
      *
      * @return winner of combat
      */
+    private boolean checkGladiatorNullReference(Gladiator gladiator) {
+        return gladiator == null;
+    }
+    private boolean checkGladiatorHPCondition(Gladiator gladiator) {
+        return gladiator.getCurrentHpBy() <= 0;
+    }
+    private Gladiator checkNullReferenceAndHpValue(Gladiator gladiator1, Gladiator gladiator2) {
+        Gladiator resultGladiato = null;
+        if (checkGladiatorHPCondition(gladiator1))
+            resultGladiato = gladiator2;
+        if (checkGladiatorHPCondition(gladiator1))
+            resultGladiato = gladiator1;
+
+        return resultGladiato;
+    }
+
+    private void Attack(Gladiator gladiator1, Gladiator gladiator2) {
+        getGladiator2().decreaseHpBy( getGladiator1().getMaxSp());
+    }
+
     public Gladiator simulate() {
         // Todo
-        return gladiator1;
+        Gladiator winner = null;
+
+        if (checkGladiatorNullReference(getGladiator1()))
+            return getGladiator2();
+        else if (checkGladiatorNullReference(getGladiator2()))
+            return getGladiator1();
+        else {
+            boolean fightCondition = true;
+
+            while (fightCondition) {
+                int gladiatorFirst = RandomUtils.getRandomValue(1,2);
+                int chanceToAttack = 0;
+                int percentValue = RandomUtils.getRandomValue(1,100);
+
+                if (gladiatorFirst % 2 == 0) {
+                    chanceToAttack = Math.abs((getGladiator2().getMaxDex() - getGladiator1().getMaxDex()) % 100);
+                    if (chanceToAttack > percentValue) {
+                        this.Attack(getGladiator1(), getGladiator2());
+                    }
+                } else {
+                    chanceToAttack = Math.abs((getGladiator1().getMaxDex() - getGladiator2().getMaxDex()) % 100);
+                    if (chanceToAttack > percentValue) {
+                        this.Attack(getGladiator2(), getGladiator1());
+                    }
+                }
+                
+                if(checkGladiatorHPCondition(getGladiator1())) {
+                    fightCondition = false;
+                    winner = getGladiator2();
+                }
+                if(checkGladiatorHPCondition(getGladiator2())) {
+                    fightCondition = false;
+                    winner = getGladiator1();
+                }
+            }
+
+        }
+
+
+
+        return winner;
     }
 
     public Gladiator getGladiator1() {

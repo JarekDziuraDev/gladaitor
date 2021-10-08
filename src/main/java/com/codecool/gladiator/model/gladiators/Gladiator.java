@@ -117,4 +117,8 @@ public abstract class Gladiator {
         return this.getMaxHp() <= 0;
     }
 
+    public int getCurrentHpBy() {
+        return this.HP;
+    }
+
 }
