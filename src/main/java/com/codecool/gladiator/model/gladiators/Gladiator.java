@@ -8,6 +8,10 @@ public abstract class Gladiator {
     private final int baseDex;
     private int level;
 
+    private int HP;
+    private int SP;
+    private int DEX;
+
     /**
      * Constructor for Gladiators
      *
@@ -23,6 +27,10 @@ public abstract class Gladiator {
         this.baseSp = baseSp;
         this.baseDex = baseDex;
         this.level = level;
+
+        this.HP = getMaxHp();
+        this.SP = getMaxSp();
+        this.DEX = getMaxDex();
     }
 
     /**
@@ -58,6 +66,7 @@ public abstract class Gladiator {
         return this.getClass().getName() + " " + name;
     }
 
+
     public enum Multiplier {
         Low(0.75),
         Medium(1.0),
@@ -76,6 +85,9 @@ public abstract class Gladiator {
 
     public void levelUp() {
         this.level++;
+        this.HP = getMaxHp();
+        this.SP = getMaxSp();
+        this.DEX = getMaxDex();
     }
 
     public int getMaxHp() {
@@ -91,6 +103,18 @@ public abstract class Gladiator {
     public int getMaxDex() {
         double result = this.baseDex * getHpMultiplier().value * this.level;
         return (int)result;
+    }
+
+    public void decreaseHpBy(int value) {
+       this.HP = this.HP - value;
+    }
+
+    public void healUp(int value) {
+        this.HP = this.HP - value;
+    }
+
+    public boolean isDead() {
+        return this.getMaxHp() <= 0;
     }
 
 }

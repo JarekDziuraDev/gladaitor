@@ -41,15 +41,27 @@ public class GladiatorFactory {
      */
     public Gladiator generateRandomGladiator() {
         // Todo
-        int type = RandomUtils.getRandomValue(0,3);
-        if( type == 2) {
-            type = RandomUtils.getRandomValue(2,3);
+        int type = RandomUtils.getRandomValue(1,125);
+
+        if(type <= 25) {
+            type = 0;
+        } else if(type <= 50) {
+            type = 1;
+        } else if(type <= 75) {
+            type = 2;
+        } else if(type <= 125) {
+            type = 3;
+        } else {
+            type = -1;
         }
-        int baseHp = 50;
-        int baseSp = 50;
-        int baseDex = 50;
-        int level = 1;
+
+        int baseHp = RandomUtils.getRandomValue(25, 100);
+        int baseSp = RandomUtils.getRandomValue(25, 100);
+        int baseDex = RandomUtils.getRandomValue(25, 100);
+        int level = RandomUtils.getRandomValue(1, 5);
+
         String randomName = getRandomName();
+
         Gladiator resultGladiator;
         switch(type) {
             case 0: resultGladiator = new Brutal(randomName, baseHp, baseSp, baseDex, level); break;
