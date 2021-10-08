@@ -11,4 +11,8 @@ public class RandomUtils {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
+    public static double getRandomValue(double min, double max) {
+        return ThreadLocalRandom.current().nextDouble(min, max);
+    }
+
 }

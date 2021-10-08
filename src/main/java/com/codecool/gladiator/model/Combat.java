@@ -46,12 +46,16 @@ public class Combat {
     }
 
     private void Attack(Gladiator gladiator1, Gladiator gladiator2) {
-        getGladiator2().decreaseHpBy( getGladiator1().getMaxSp());
+        double attackPoints = gladiator1.getMaxSp() * RandomUtils.getRandomValue(0.1, 0.5);
+        gladiator2.decreaseHpBy( (int)attackPoints );
+
+        getCombatLog(gladiator1.getName() + " deals " + attackPoints + " damage");
     }
 
     public Gladiator simulate() {
         // Todo
         Gladiator winner = null;
+        Gladiator gladiatorAttacker, gladiatorDefender = null;
 
         if (checkGladiatorNullReference(getGladiator1()))
             return getGladiator2();
@@ -67,16 +71,25 @@ public class Combat {
 
                 if (gladiatorFirst % 2 == 0) {
                     chanceToAttack = Math.abs((getGladiator2().getMaxDex() - getGladiator1().getMaxDex()) % 100);
-                    if (chanceToAttack > percentValue) {
-                        this.Attack(getGladiator1(), getGladiator2());
-                    }
+                    gladiatorAttacker = getGladiator1();
+                    gladiatorDefender = getGladiator2();
+//                    if (chanceToAttack > percentValue) {
+//
+//                        //this.Attack(getGladiator1(), getGladiator2());
+//                    }
                 } else {
                     chanceToAttack = Math.abs((getGladiator1().getMaxDex() - getGladiator2().getMaxDex()) % 100);
-                    if (chanceToAttack > percentValue) {
-                        this.Attack(getGladiator2(), getGladiator1());
-                    }
+                    gladiatorAttacker = getGladiator2();
+                    gladiatorDefender = getGladiator1();
+//                    if (chanceToAttack > percentValue) {
+//
+//                        //this.Attack(getGladiator2(), getGladiator1());
+//                    }
                 }
-                
+                if (chanceToAttack > percentValue) {
+                    this.Attack(gladiatorAttacker, gladiatorDefender);
+                } else this.getCombatLog(gladiatorAttacker.getName() + " missed.");
+
                 if(checkGladiatorHPCondition(getGladiator1())) {
                     fightCondition = false;
                     winner = getGladiator2();
